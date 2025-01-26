@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+    <style>  
+        table, th, td {
+            border: 1px solid black;
+        } 
+        
+    </style>
+</head>
+<body>
+
+    <h3> TODO Assignment</h3>
+    <input type="date" id="todoDate" placeholder="Select Date" />
+    <input type="text" id="todoInput" placeholder="Enter your task" />
+    <input type="button" id="addButton" value="Add TODO"/>
+
+    <h3>TODO List</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th> 
+                <th>Task</th> 
+            </tr>
+        </thead>
+        <tbody id="todoTableBody">
+        </tbody>
+    </table>
+
+    <script> 
+        const todoInput = document.getElementById('todoInput');
+        const addButton = document.getElementById('addButton');
+        const todoTableBody = document.getElementById('todoTableBody');
+
+        window.onload = () => {
+            // localStorage.clear();
+            loadDataFromStorage();
+        };
+
+        function loadDataFromStorage() {
+            const todos = JSON.parse(localStorage.getItem('todos')) || [];
+            todoTableBody.innerHTML = '';  
+            todos.forEach(todo => {
+                addRow(todo.text, todo.id,todo.todoDate);
+             });
+        }
+
+        function addRow(todoText, todoId,todoDate) {
+            const row = document.createElement('tr');
+            row.setAttribute('data-id', todoId); 
+
+            const cellDt = document.createElement('td');
+            cellDt.textContent = todoDate;
+            row.appendChild(cellDt);  
+
+
+            const cellText = document.createElement('td');
+            cellText.textContent = todoText;
+            row.appendChild(cellText);  
+
+            todoTableBody.appendChild(row);
+        }
+ 
+        function add() {
+            const todoText = todoInput.value.trim();
+            const toDate=document.getElementById('todoDate').value;
+            if (todoText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+
+            const todos = JSON.parse(localStorage.getItem('todos')) || [];
+            const newTodo = {
+                id: Date.now(),  
+                text: todoText,
+                todoDate: toDate
+            };
+
+            todos.push(newTodo);
+            localStorage.setItem('todos', JSON.stringify(todos));
+
+            addRow(todoText, newTodo.id,toDate);
+            todoInput.value = '';  
+        }
+        addButton.addEventListener('click', add);
+
+    </script>
+</body>
+</html>

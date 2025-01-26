@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Handling Example</title>
+    <style>
+        .container {
+            margin: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label for="inputField">Enter Your Data:</label>
+        <input type="text" id="inputField">
+        <button id="submitButton">Submit</button>
+        
+        <div class="result">
+            <span id="resultSpan">Result displayed here.</span>
+        </div>
+    </div>
+    <script>
+        const inputField = document.getElementById('inputField');
+        const submitButton = document.getElementById('submitButton');
+        const resultSpan = document.getElementById('resultSpan');
+
+        inputField.addEventListener('input', function() {
+            console.log('Input value changed:', inputField.value);
+        });
+        submitButton.addEventListener('click', function() {
+            debugger;
+            const inputValue = inputField.value;
+            resultSpan.textContent = inputValue ? `You entered: ${inputValue}` : 'Please enter Data';
+            console.log('Button clicked. Input value:', inputValue);
+        });
+    </script>
+</body>
+</html>
